@@ -13,7 +13,7 @@ builder.Host.UseSerilog((HostBuilderContext hosting, IServiceProvider services, 
     loggerConfiguration.Enrich.WithExceptionDetails();
     loggerConfiguration.Enrich.WithSpan();
                 
-    loggerConfiguration.ReadFrom.Configuration(builder.Configuration);
+    loggerConfiguration.ReadFrom.Configuration(builder.Configuration.GetSection("Serilog"));
     loggerConfiguration.WriteTo.Console();
 });
 
@@ -26,10 +26,10 @@ builder.Services.AddControllersWithViews()
     });
 
 
+builder.Services.Configure<LuceedConfig>(builder.Configuration.GetSection(LuceedConfig.ConfigName));
 builder.Services.AddLuceedApiClient();
 builder.Services.AddBusinessLogic();
 
-builder.Services.Configure<LuceedConfig>(builder.Configuration.GetSection(LuceedConfig.ConfigName));
 
 
 
