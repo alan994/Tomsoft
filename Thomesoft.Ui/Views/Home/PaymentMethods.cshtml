@@ -1,0 +1,40 @@
+﻿@model GetPaymentTypeForProductResponse
+@{
+    ViewData["Title"] = "Payment Methods";
+    var warehouseData = ViewData["warehouses"] as GetWarehousesResponse;
+}
+
+<form asp-controller="Home" asp-action="PaymentMethods" method="post">
+    <select name="productId">
+        @foreach (var warehouse in warehouseData.Warehouses)
+        {
+            <option value="@warehouse.PjId">@warehouse.Name</option>
+        }
+    </select>    <input type="date" required name="startDate" />
+    <input type="date" name="endDate" />
+    <button type="submit">Traži</button>
+</form>
+
+<br />
+<br />
+@if (Model != null)
+{
+
+    <table class="table">
+		<tr>
+			<th>Product Id</th>
+			<th>Name</th>
+			<th>Amount</th>
+		</tr>
+		   		
+        @foreach (var product in Model.PaymentTypes)
+        {
+            <tr>                
+                <td>@(string.IsNullOrEmpty(product.Id) ? "N/A" : product.Id)</td>
+                <td>@(string.IsNullOrEmpty(product.Name) ? "N/A" : product.Name)</td>                
+                <td>@product.Amount</td>
+            </tr>
+        }
+	</table>
+
+}

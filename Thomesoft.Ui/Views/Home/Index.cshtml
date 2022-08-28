@@ -1,0 +1,28 @@
+﻿@model SearchProductResponse
+@{
+    ViewData["Title"] = "Products";
+}
+
+
+<form asp-controller="Home" asp-action="Index" method="post">
+    <input type="text" name="query" placeholder="Search products"/>
+    <button type="submit">Search</button>
+</form>
+<br /><br />
+@if (Model != null)
+{
+    <table class="table">
+		<tr>
+			<th>Product Id</th>
+			<th>Name</th>
+		</tr>
+		   		
+        @foreach(var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>
+            </tr> 
+        }    
+	</table>
+}

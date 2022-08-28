@@ -1,0 +1,43 @@
+﻿
+@model GetTransactionsForProductResponse
+@{
+	ViewData["Title"] = "Transactions";
+	var warehouseData = ViewData["warehouses"] as GetWarehousesResponse;
+}
+
+<form asp-controller="Home" asp-action="Transactions" method="post">	
+	<select name="productId">
+		@foreach(var warehouse in warehouseData.Warehouses)
+		{
+			<option value="@warehouse.PjId">@warehouse.Name</option>
+		}
+	</select>
+	<input type="date" required name="startDate"/>
+	<input type="date" name="endDate"/>
+	<button type="submit">Traži</button>
+</form>
+<br />
+<br />
+
+@if (Model != null)
+{
+	<table class="table">
+		<tr>
+			<th>Product Id</th>
+			<th>Name</th>
+			<th>Quantity</th>
+			<th>Amount</th>
+			<th>IsService</th>
+		</tr>
+		@foreach(var product in Model.Transactions)
+		{
+			<tr>
+				<td>@(string.IsNullOrEmpty(product.ProductId) ? "N/A" : product.ProductId)</td>
+				<td>@(string.IsNullOrEmpty(product.Name) ? "N/A" : product.Name)</td>				
+				<td>@product.Quantity</td>
+				<td>@product.Amount</td>
+				<td>@(product.IsService ? "Yes": "No")</td>
+			</tr> 
+		}    		
+	</table>
+}
